@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace = 接口的全限定符 -->
+<mapper namespace="com.lyl.yph.manager.mapper.OrderInfoMapper">
+
+    <!--查询指定日期产生的订单数据-->
+    <select id="selectOrderStatistics" resultType="com.lyl.yph.model.entity.order.OrderStatistics">
+        select
+            DATE_FORMAT
+            (oi.create_time ,'%Y-%m-%d') orderDate, sum(oi.total_amount)  totalAmount , count(oi.id) totalNum
+        from
+            order_info oi
+        where
+            DATE_FORMAT(oi.create_time ,'%Y-%m-%d') = #{createTime}
+        GROUP BY
+            DATE_FORMAT(oi.create_time ,'%Y-%m-%d')
+    </select>
+
+</mapper>

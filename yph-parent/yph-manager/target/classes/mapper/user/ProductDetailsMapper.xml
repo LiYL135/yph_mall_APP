@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace = 接口的全限定符 -->
+<mapper namespace="com.lyl.yph.manager.mapper.ProductDetailsMapper">
+
+    <!--保存商品详情数据-->
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into
+            product_details (
+            id, product_id, image_urls, create_time, update_time,is_deleted )
+        values (
+            #{id}, #{productId}, #{imageUrls}, now(), now(), 0 )
+    </insert>
+
+    <resultMap id="productDetailsMap" type="com.lyl.yph.model.entity.product.ProductDetails" autoMapping="true"></resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        id,product_id,image_urls,create_time,update_time,is_deleted
+    </sql>
+
+    <!--根据商品的id查询商品详情数据-->
+    <select id="selectByProductId" resultMap="productDetailsMap">
+        select
+            <include refid="columns" />
+        from
+            product_details
+        where
+            product_id = #{productId}
+    </select>
+
+    <!--修改商品的详情数据-->
+    <update id="updateById" >
+        update product_details set
+        <if test="productId != null and productId != ''">
+            product_id = #{productId},
+        </if>
+        <if test="imageUrls != null and imageUrls != ''">
+            image_urls = #{imageUrls},
+        </if>
+        update_time =  now()
+        where
+        id = #{id}
+    </update>
+
+    <!--删除商品详情-->
+    <update id="deleteByProductId">
+        update product_details set
+        update_time = now() ,
+        is_deleted = 1
+        where
+        product_id = #{productId}
+    </update>
+
+</mapper>

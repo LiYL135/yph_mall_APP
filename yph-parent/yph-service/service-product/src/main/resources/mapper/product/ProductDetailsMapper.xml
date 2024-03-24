@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace = 接口的全限定符 -->
+<mapper namespace="com.lyl.yph.product.mapper.ProductDetailsMapper">
+
+    <resultMap id="productDetailsMap" type="com.lyl.yph.model.entity.product.ProductDetails" autoMapping="true">
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        id,product_id,image_urls,create_time,update_time,is_deleted
+    </sql>
+
+    <!--根据商品id 获取商品详情信息-->
+    <select id="getByProductId" resultMap="productDetailsMap">
+        select
+            <include refid="columns" />
+        from
+            product_details
+        where
+            product_id = #{productId}
+    </select>
+
+
+</mapper>

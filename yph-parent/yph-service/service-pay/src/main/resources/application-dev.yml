@@ -1,0 +1,26 @@
+server:
+  port: 8515
+
+spring:
+  application:
+    name: service-pay
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.80.128:8848
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.80.128:3306/db_spzx?characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 1234
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  config:
+    import: application-alipay.yml
+
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:/mapper/*/*.xml

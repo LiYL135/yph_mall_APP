@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace = 接口的全限定符 -->
+<mapper namespace="com.lyl.yph.manager.mapper.CategoryMapper">
+
+    <resultMap id="categoryMap" type="com.lyl.yph.model.entity.product.Category" autoMapping="true">
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        id,name,image_url,parent_id,status,order_num,create_time,update_time,is_deleted
+    </sql>
+
+    <!-- 根据分类id查询它下面的所有的子分类数据 -->
+    <select id="selectByParentId" resultMap="categoryMap">
+        select
+            <include refid="columns" />
+        from
+            category
+        where
+            parent_id = #{parentId}
+        and
+            is_deleted = 0
+        order by
+            id desc
+    </select>
+
+    <!-- 查询该分类下子分类的数量 -->
+    <select id="countByParentId" resultType="Integer">
+        select
+            count(id)
+        from
+            category
+        where
+            parent_id = #{parentId}
+        and
+            is_deleted = 0
+    </select>
+
+    <!--查询所有分类，返回集合-->
+    <select id="selectAll" resultMap="categoryMap">
+        select
+            <include refid="columns" />
+        from
+            category
+        where
+            is_deleted = 0
+        order by
+            id
+    </select>
+
+    <!--批量插入分类数据，供ExcelListener监听器使用，注意批量插入的方法 特殊-->
+    <insert id="batchInsert" useGeneratedKeys="true" keyProperty="id">
+        insert into
+            category (
+            id, name, image_url, parent_id, status, order_num, create_time , update_time , is_deleted
+        ) values
+        <foreach collection="categoryList" item="item" separator="," >
+            (
+            #{item.id},
+            #{item.name},
+            #{item.imageUrl},
+            #{item.parentId},
+            #{item.status},
+            #{item.orderNum},
+            now(),
+            now(),
+            0
+            )
+        </foreach>
+    </insert>
+
+</mapper>

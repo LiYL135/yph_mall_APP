@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace = 接口的全限定符 -->
+<mapper namespace="com.lyl.yph.user.mapper.UserInfoMapper">
+
+    <resultMap id="userInfoMap" type="com.lyl.yph.model.entity.user.UserInfo" autoMapping="true">
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        id,username,password,nick_name,avatar,sex,phone,memo,open_id,union_id,last_login_ip,last_login_time,status,create_time,update_time,is_deleted
+    </sql>
+
+    <!-- 保存用户信息 -->
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into
+            user_info ( id, username, password, nick_name, avatar, sex, phone, memo, open_id,
+            union_id, last_login_ip, last_login_time, status )
+        values (
+            #{id}, #{username}, #{password}, #{nickName}, #{avatar}, #{sex}, #{phone}, #{memo},
+            #{openId}, #{unionId}, #{lastLoginIp}, #{lastLoginTime}, #{status} )
+    </insert>
+
+    <!-- 根据用户名获取用户信息 -->
+    <select id="getByUsername" resultMap="userInfoMap">
+        select
+            <include refid="columns" />
+        from
+            user_info
+        where
+            username = #{username}
+    </select>
+
+
+</mapper>

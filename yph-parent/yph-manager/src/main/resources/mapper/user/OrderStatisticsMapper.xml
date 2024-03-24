@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace = 接口的全限定符 -->
+<mapper namespace="com.lyl.yph.manager.mapper.OrderStatisticsMapper">
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        id,order_date,total_amount,total_num,create_time,update_time,is_deleted
+    </sql>
+
+    <!--将统计数据存入数据库-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into
+            order_statistics (
+            id, order_date, total_amount, total_num )
+        values (
+            #{id}, #{orderDate}, #{totalAmount}, #{totalNum} )
+    </insert>
+
+    <!--获取订单统计数据-->
+    <resultMap id="orderStatisticsMap" type="com.lyl.yph.model.entity.order.OrderStatistics" autoMapping="true"></resultMap>
+
+    <select id="selectList" resultMap="orderStatisticsMap">
+        select
+            <include refid="columns" />
+        from
+            order_statistics
+        <where>
+            <if test="createTimeBegin != null and createTimeBegin != ''">
+                and order_date >= #{createTimeBegin}
+            </if>
+            <if test="createTimeEnd != null and createTimeEnd != ''">
+                and order_date &lt;= #{createTimeEnd}
+            </if>
+        </where>
+        order by
+            order_date
+    </select>
+
+</mapper>

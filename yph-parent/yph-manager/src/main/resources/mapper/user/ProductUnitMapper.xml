@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace = 接口的全限定符 -->
+<mapper namespace="com.lyl.yph.manager.mapper.ProductUnitMapper">
+    <resultMap id="productUnitMap" type="com.lyl.yph.model.entity.base.ProductUnit" autoMapping="true"></resultMap>
+
+    <sql id="columns">
+        id,name,create_time,update_time,is_deleted
+    </sql>
+
+    <!--查询所有商品单元数据-->
+    <select id="findAll" resultMap="productUnitMap">
+        select
+            <include refid="columns" />
+        from
+            product_unit
+        where
+            is_deleted = 0
+        order by
+            id
+    </select>
+
+
+</mapper>

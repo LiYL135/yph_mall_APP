@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace = 接口的全限定符 -->
+<mapper namespace="com.lyl.yph.manager.mapper.SysOperLogMapper">
+
+    <!--保存日志数据-->
+    <insert id="insert" >
+        insert into
+            sys_oper_log (
+        id, title, method, request_method, operator_type, oper_name, oper_url, oper_ip,
+        oper_param, json_result, status, error_msg )
+            values (
+        #{id}, #{title}, #{method}, #{requestMethod}, #{operatorType}, #{operName}, #{operUrl},
+        #{operIp}, #{operParam}, #{jsonResult}, #{status}, #{errorMsg} )
+    </insert>
+
+</mapper>
